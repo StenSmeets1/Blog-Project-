@@ -20,7 +20,7 @@ sudo pacman -S php composer nodejs npm sqlite
 ## All
 
 ```
-git clone https://github.com/StenSmeets1/Blog-Project-.git
+git clone git@github.com:StenSmeets1/Blog-Project-.git
 cd Blog-Project
 ```
 
