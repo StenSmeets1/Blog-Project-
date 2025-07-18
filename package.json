@@ -16,7 +16,11 @@
     },
     "dependencies": {
         "@inertiajs/vue3": "^2.0.14",
+        "@toast-ui/editor": "^3.2.2",
+        "@toast-ui/editor-plugin-code-syntax-highlight": "^3.1.0",
+        "@toast-ui/editor-plugin-color-syntax": "^3.1.0",
         "@vitejs/plugin-vue": "^6.0.0",
+        "lucide-vue-next": "^0.525.0",
         "vue": "^3.5.17"
     }
 }
