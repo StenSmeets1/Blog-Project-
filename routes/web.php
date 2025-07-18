@@ -3,6 +3,9 @@
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\PostController;
+use App\Models\Category;
+use App\Models\Post;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
@@ -13,6 +16,11 @@ Route::middleware(['web'])->group(function () {
     Route::get('/', function () {
         return Inertia::render('Home');
     });
+
+    Route::get('/posts', [PostController::class, 'index']);
+    Route::delete('/posts/{post}', [PostController::class, 'destroy']);
+
+    Route::get('/posts/{slug}', [PostController::class, 'show']);
 
     Route::get('/register', [RegisterController::class, 'create']);
     Route::post('/register', [RegisterController::class, 'store']);
@@ -28,7 +36,9 @@ Route::middleware(['web'])->group(function () {
             return Inertia::render('Dashboard');
         });
         Route::get('/create', function() {
-            return Inertia::render ('CreatePost');
+            return Inertia::render ('CreatePost', [
+                'categories' => Category::all(),
+            ]);
         });
     });
 });

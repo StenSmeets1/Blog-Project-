@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
+use Inertia\Inertia;
 
 class Post extends Model
 {
@@ -19,6 +20,8 @@ class Post extends Model
             ->generateSlugsFrom('title')
             ->saveSlugsTo('slug');
     }
+
+    
 
 
     public function user() {

@@ -4,21 +4,35 @@
         <div class="flex justify-center mt-10 mb-10 flex-col items-center">
 
             <div class="flex items-center mb-10">
-                <div class="mr-20 ">
-                    <label for="title" class="block text-sm font-medium text-gray-700 mb-2">
-                        Post title
-                    </label>
-                    <input id="title" v-model="form.title" type="text" required
-                        class=" px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
-                        placeholder="Title of your post" />
+                <div class="mr-20 flex gap-10">
+                    <div class="flex flex-col">
+                        <label for="title" class="block text-sm font-medium text-gray-700 mb-2">
+                            Post title
+                        </label>
+
+                        <input id="title" v-model="form.title" type="text" required
+                            class=" px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
+                            placeholder="Title of your post" />
+                    </div>
+                    <div class="flex flex-col">
+                        <label for="category" class="text-sm font-medium text-gray-700 mb-2">Category</label>
+                        <select id="category" v-model="form.category_id"
+                            class=" px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
+                            required>
+                            <option disabled selected value="">Select a Category</option>
+                            <option v-for="category in categories" :key="category.id" :value="category.id">{{
+                                category.category }}</option>
+                        </select>
+                    </div>
                 </div>
-                <button type="submit" class="w-20 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 mt-7">Post</button>
+                <button type="submit"
+                    class="w-20 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 mt-7">Post</button>
             </div>
             <div class="max-w-5xl h-2xl flex justify-center">
                 <div id="editor" class="shadow-lg" />
             </div>
 
-            
+
         </div>
     </form>
 
@@ -37,9 +51,14 @@ import '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin
 import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight';
 import { useForm } from '@inertiajs/vue3';
 
+defineProps({
+    categories: Array
+})
+
 const form = useForm({
     title: '',
-    content: ''
+    content: '',
+    category_id: null
 })
 
 const editor = ref(null)

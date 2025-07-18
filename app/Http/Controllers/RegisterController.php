@@ -23,7 +23,12 @@ class RegisterController extends Controller
             'password' => ['required', Password::min(8)->letters()->mixedCase()]
         ]);
 
-        $user = User::create($attributes);
+        $user = User::create([
+            'name' => $attributes['name'],
+            'email' => $attributes['email'],
+            'password' => $attributes['password'],
+            'isAdmin' => 0,
+        ]);
 
 
         Auth::login($user);

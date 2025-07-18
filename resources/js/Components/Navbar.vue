@@ -8,10 +8,8 @@
 
             <!-- Center -->
             <div class="flex gap-20 justify-center text-center items-center">
-                <Link href="#" class="text-lg hover:bg-gray-200 p-2 pl-4 pr-4 rounded-2xl text-gray-800 font-semibold">
+                <Link href="/posts" class="text-lg hover:bg-gray-200 p-2 pl-4 pr-4 rounded-2xl text-gray-800 font-semibold">
                 Posts</Link>
-                <Link href="#" class="text-lg hover:bg-gray-200 p-2 pl-4 pr-4 rounded-2xl text-gray-800 font-semibold">
-                Categories</Link>
                 <Link href="/create" class="text-lg hover:bg-gray-200 p-2 pl-4 pr-4 rounded-2xl text-gray-800 font-semibold">
                 Create post</Link>
             </div>
