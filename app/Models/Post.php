@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\Sluggable\HasSlug;
@@ -10,8 +11,17 @@ use Inertia\Inertia;
 
 class Post extends Model
 {
+
+    use HasFactory;
     use HasSlug;
-    protected $guarded = [];
+    protected $fillable = [
+        'title',
+        'content', 
+        'user_id',
+        'category_id',
+        'slug',
+        'views'
+    ];
 
 
     public function getSlugOptions(): SlugOptions

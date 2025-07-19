@@ -1,7 +1,7 @@
 <template>
     <Navbar />
     <form @submit.prevent="submit">
-        <div class="flex justify-center mt-10 mb-10 flex-col items-center">
+        <div class="md:flex md:visible justify-center hidden mt-10 mb-10 flex-col items-center">
 
             <div class="flex items-center mb-10">
                 <div class="mr-20 flex gap-10">
@@ -20,15 +20,15 @@
                             class=" px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
                             required>
                             <option disabled selected value="">Select a Category</option>
-                            <option v-for="category in categories" :key="category.id" :value="category.id">{{
-                                category.category }}</option>
+                            <option v-for="category in categories" :key="category.id" :value="category.id">
+                               {{   category.category }}</option>
                         </select>
                     </div>
                 </div>
                 <button type="submit"
                     class="w-20 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 mt-7">Post</button>
             </div>
-            <div class="max-w-5xl h-2xl flex justify-center">
+            <div class="md:max-w-5xl max-w-sm h-2xl flex justify-center">
                 <div id="editor" class="shadow-lg" />
             </div>
 
@@ -36,6 +36,11 @@
         </div>
     </form>
 
+    <div class="flex justify-center mt-10">
+        <div class="md:hidden sm:visible flex justify-center items-center w-52 text-center">
+            <h1 class="font-bold">Please login in on a Laptop or desktop pc to write a post.</h1>
+        </div>
+    </div>
 </template>
 
 <script setup>
@@ -49,7 +54,7 @@ import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
 import 'prismjs/themes/prism.css';
 import '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css';
 import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight';
-import { useForm } from '@inertiajs/vue3';
+import { useForm, router } from '@inertiajs/vue3';
 
 defineProps({
     categories: Array
@@ -64,9 +69,11 @@ const form = useForm({
 const editor = ref(null)
 
 const submit = () => {
-    form.content = editor.value.getMarkdown();
+    const editor_content = editor.value.getMarkdown()
+    form.content = editor_content
     form.post('/create')
 }
+
 
 onMounted(() => {
     editor.value = new Editor({

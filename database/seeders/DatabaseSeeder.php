@@ -3,8 +3,11 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use Faker\Guesser\Name;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Testing\Fakes\Fake;
+use App\Models\Post;
 
 class DatabaseSeeder extends Seeder
 {
@@ -13,8 +16,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
+        Post::factory(10)->create();
         
     }
 }

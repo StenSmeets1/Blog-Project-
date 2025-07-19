@@ -8,6 +8,7 @@ use Inertia\Inertia;
 use App\Models\Category;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use League\CommonMark\CommonMarkConverter;
 
 class PostController extends Controller
@@ -16,21 +17,17 @@ class PostController extends Controller
     public function index()
     {
 
-        $posts = Post::simplePaginate(15);
+        $posts = Post::orderBy('created_at', 'DESC')
+            ->simplePaginate(9);
 
         $converter = new CommonMarkConverter();
 
         $posts->getCollection()->transform(function ($post) use ($converter) {
-            return [
-                'id' => $post->id,
-                'title' => $post->title,
-                'slug' => $post->slug,
-                'category_id' => $post->category_id,
-                'user_id' => $post->user_id,
-                'content_html' => (string) $converter->convertToHtml($post->content),
-                'content_plain' => strip_tags((string) $converter->convertToHtml($post->content)),
 
-            ];
+            $post->content_html = (string) $converter->convertToHtml($post->content);
+            $post->content_plain = strip_tags($post->content_html);
+
+            return $post;
         });
 
         return Inertia::render('PostsPage', [
@@ -48,6 +45,15 @@ class PostController extends Controller
 
         $post->content_html = (string) $converter->convertToHtml($post->content);
 
+        $viewedPosts = session('viewed_posts', []);
+
+        if (!in_array($post->id, $viewedPosts)) {
+            
+            $viewedPosts[] = $post->id;
+            session(['viewed_posts' => $viewedPosts]);
+
+            $post->increment('views');
+        }
 
         return Inertia::render('SinglePost', [
             'post' => $post,
@@ -59,14 +65,23 @@ class PostController extends Controller
 
     public function store(Request $request)
     {
-        $attributes = $request;
+        //$attributes = $request;
+
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'content' => 'required|string',
+            'category_id' => 'required|exists:categories,id'
+        ]);
 
         $post = Post::create([
-            'title' => $request->title,
-            'content' => $request->content,
-            'user_id' => $request->user()->id,
-            'category_id' => $request->category_id
+            'title' => $validated['title'],
+            'content' => $validated['content'],
+            'user_id' => Auth::id(),
+            'category_id' => $validated['category_id'],
+            'views' => 0,
         ]);
+
+
 
         return redirect('/');
     }
@@ -77,5 +92,4 @@ class PostController extends Controller
 
         return redirect('/posts');
     }
-
 }
